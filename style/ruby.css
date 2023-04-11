@@ -1,0 +1,15 @@
+[data-ruby] {
+	position: relative;
+}
+[data-ruby]::before {
+	content: attr(data-ruby);
+	position: absolute;
+	top: -2.6em;
+	left: 0;
+	right: 0;
+	margin: auto;
+	font-size: 0.5em;
+	font-weight: bold;
+	text-align: center;
+	white-space: nowrap;
+}
