@@ -84,21 +84,20 @@ class TextAreaWatcher {
 	}
 
 	// テキストフィールドのcompositionendイベントリスナー
-	textarea_compositionend(e) {
+	async textarea_compositionend(e) {
 		// 確定されたとき
 		let kanjiText = e.data;
 		let textConversion = new TextConversion();
 		let options = textConversion.findOptions(this.#kanaText, kanjiText);
-		if (options.length > 0) {
-			let beforeText = textarea.value.substring(0, this.#beforeTextLength);
-			let afterText = textarea.value.substring(textarea.value.length - this.#afterTextLength);
-			if (options.length > 1) {
-				// todo: 複数候補を順位づけする
-			}
-			textarea.value = beforeText + options[0] + afterText;
-			let cursorLocation = textarea.value.length - this.#afterTextLength;
-			textarea.setSelectionRange(cursorLocation, cursorLocation);
-		}
+
+		// 簡単のため、候補が1個でもchooserに投げる
+		let adoptedOption = await userChooseOption(options);
+		
+		let beforeText = textarea.value.substring(0, this.#beforeTextLength);
+		let afterText = textarea.value.substring(textarea.value.length - this.#afterTextLength);
+		textarea.value = beforeText + adoptedOption + afterText;
+		let cursorLocation = textarea.value.length - this.#afterTextLength;
+		textarea.setSelectionRange(cursorLocation, cursorLocation);
 		this.#resetFlags();
 
 		preview.innerHTML = convertRuby(textarea.value);

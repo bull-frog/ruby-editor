@@ -17,6 +17,7 @@ class TextConversion {
 		let results = [];
 		// 漢字が含まれていない場合はここで終了
 		if (!this.#kanjiIsIncludedIn(kanjiText)) {
+			results.push(kanjiText);
 			return results;
 		}
 		this.#text_before = kanaText;
@@ -33,16 +34,24 @@ class TextConversion {
 			this.#splitReadable(this.#text_after, this.#text_after_split);
 			options = options.concat(this.#matchReadable(0, 0));
 		}
-		for (let option of options) {
+		
+		let minVariant = 100;
+		
+		OPTION_LOOP: for (let option of options) {
 			let result = "";
 			let nextUnreadablePosition = 0;
 			let nextReadableIndex = 0;
+			console.log(option);
 			for (let word of this.#text_after_split) {
 				if (this.#readable(word.charAt(0))) {
 					result += word;
 					nextUnreadablePosition = option[nextReadableIndex] + word.length;
 					nextReadableIndex++;
 				} else {
+					// 漢字の長さが0になるものは不適切なので、optionごとスキップ
+					if (nextUnreadablePosition == option[nextReadableIndex]) {
+						continue OPTION_LOOP;
+					}
 					result += `[${word}](${this.#text_before.substring(nextUnreadablePosition, option[nextReadableIndex])})`;
 				}
 			}

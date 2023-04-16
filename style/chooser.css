@@ -1,0 +1,50 @@
+#chooser-background {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	z-index: 1000;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	backdrop-filter: blur(20px);
+}
+
+#chooser-container {
+	border-radius: 20px;
+	box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2);
+
+	max-height: 80vh;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+#chooser-container > div {
+	width: 600px;
+	min-height: 60px;
+	text-align: center;
+	padding-top: 40px;
+
+	background-color: white;
+	color: gray;
+	font-weight: bold;
+	font-size: larger;
+	cursor: pointer
+}
+
+#chooser-container > div:hover {
+	background-color: lightgray;
+}
+
+#chooser-container > div:first-child {
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+}
+
+#chooser-container > div:last-child {
+	border-bottom-left-radius: 20px;
+	border-bottom-right-radius: 20px;
+}
