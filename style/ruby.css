@@ -1,10 +1,12 @@
 [data-ruby] {
 	position: relative;
+	display: inline-block;
 }
+
 [data-ruby]::before {
 	content: attr(data-ruby);
 	position: absolute;
-	top: -2.6em;
+	top: -1.8em;
 	left: 0;
 	right: 0;
 	margin: auto;
