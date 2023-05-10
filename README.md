@@ -1,6 +1,6 @@
 # ふりがなエディター
 ホームページ制作、note記事の編集の際、ふりがなを振る作業を自動化できます。
-リンク：[ふりがなエディター(https://bull-frog.github.io/ruby-editor/)
+リンク：[ふりがなエディター](https://bull-frog.github.io/ruby-editor/)
 
 ## 利用方法
 * キーボードでひらがなを入力します。
