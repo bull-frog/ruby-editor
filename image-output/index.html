@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>ふりがなエディター（画像出力）</title>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="../style/ruby.css">
+<link rel="stylesheet" href="../style/chooser.css">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="manifest" href="../site.webmanifest">
+<link rel="mask-icon" href="../safari-pinned-tab.svg" color="#5bbad5">
+<meta name="msapplication-TileColor" content="#da532c">
+<meta name="theme-color" content="#ffffff">
+<style>
+	[data-ruby]::before {
+		top: -1.6rem;
+		font-weight: inherit;
+	}
+	#preview {
+		text-align: center;
+		font-size: 80px;
+		padding: 40px;
+		width: fit-content;
+	}
+</style>
+<style id="preview_style">#preview {
+
+font-family: "Zen Kaku Gothic New", sans-serif;
+font-weight: 700;
+color: #000000;
+
+}
+</style>
+</head>
+<body>
+
+<textarea id="input" style="width: 90vw; height: 40px; resize: none; font-family: sans-serif;"></textarea>
+<textarea id="style" style="width: 90vw; height: 200px; resize: none; font-family: monospace;"></textarea>
+<button onclick="navigator.clipboard.writeText(document.getElementById('style').innerText);">コピー</button>
+<span id="text_saved_state" style="display: none;">保存済み</span>
+<p>クリックすると画像をコピーします。</p>
+<p id="preview"></p>
+<p id="output_text" style="display: none;"></p>
+
+<script src="../js/text-conversion.js"></script>
+<script src="../js/textarea.js"></script>
+<script src="../js/ruby.js"></script>
+<script src="../js/output-note.js"></script>
+<script src="../js/browser-check.js"></script>
+<script src="../js/chooser.js"></script>
+<script src="./html2canvas.min.js"></script>
+<script>
+	const text_saved_state = document.getElementById("text_saved_state");
+	const textarea = document.getElementById("input");
+	const preview = document.getElementById("preview");
+	const output = document.getElementById("output_text");
+	const textareaWatcher = new TextAreaWatcher();
+	textareaWatcher.setListenersTo(textarea);
+</script>
+<script>
+	window.addEventListener("load", function() {
+		let agent = window.navigator.userAgent.toLowerCase();
+		if (agent.indexOf("chrome") == -1) {
+			alert("画像生成ページは Chrome で利用してください。");
+			location.href = "../";
+		}
+	});
+	const previewStyle = document.getElementById("preview_style");
+	const styleField = document.getElementById("style");
+	styleField.innerHTML = previewStyle.innerHTML;
+	styleField.addEventListener("input", function(e) {
+		console.log("edit");
+		previewStyle.innerHTML = styleField.value;
+	});
+	preview.addEventListener("click", function() {
+		html2canvas(preview, {
+			backgroundColor: null
+		}).then((canvas) => {
+			let imageData = canvas.toDataURL();
+			console.log("画像を出力しました");
+			canvas.toBlob(async function(blob) {
+				const item = new ClipboardItem({
+					'image/png': blob
+				});
+				await navigator.clipboard.write([item]);
+				console.log("クリップボードにコピーしました");
+			});
+		});
+	});
+</script>
+<script src="../js/file.js"></script>
+</body>
+</html>
