@@ -14,12 +14,13 @@
 <meta name="theme-color" content="#ffffff">
 <style>
 	[data-ruby]::before {
-		top: -1.6rem;
+		top: -3.4rem;
 		font-weight: inherit;
 	}
 	#preview {
 		text-align: center;
 		font-size: 80px;
+		line-height: 160%;
 		padding: 40px;
 		width: fit-content;
 	}
@@ -78,13 +79,11 @@ color: #000000;
 			backgroundColor: null
 		}).then((canvas) => {
 			let imageData = canvas.toDataURL();
-			console.log("画像を出力しました");
 			canvas.toBlob(async function(blob) {
 				const item = new ClipboardItem({
 					'image/png': blob
 				});
 				await navigator.clipboard.write([item]);
-				console.log("クリップボードにコピーしました");
 			});
 		});
 	});
