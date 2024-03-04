@@ -22,7 +22,7 @@ function convertOutput(inputText) {
 	}
 	output += baseTextArray[baseTextArray.length - 1];
 	
-	output = output.replaceAll("\n", "<br>");
+//	output = output.replaceAll("\n", "<br>");
 	
 	return output;
 }
